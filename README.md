@@ -8,7 +8,7 @@ Installs and configures the Equalogic Host Integration Tools to set up multipath
 
 # Usage
 
-Add `recipe[equallogic]` to your run list and set the appropriate attributes for configuration and addition of the login provider.  To automatically install the host integration tools, you will need to provide a url to the iso as it is not provided.  The best thing to do is download the iso from Dell's website and serve via http it internally.
+Add `recipe[equallogic]` to your run list and set the appropriate attributes for configuration and addition of the login provider.  To automatically install the host integration tools with `recipe[equallogic::hitools]`, you will need to provide a url to the iso as it is not provided.  The best thing to do is download the iso from Dell's website and serve via http it internally.
 
 # Attributes
 
