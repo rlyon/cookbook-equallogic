@@ -1,0 +1,146 @@
+# Managed by Chef for <%= node['hostname'] %>
+#-----------------------------------------------------------------------
+#  Copyright (c) 2004-2012 by Dell Inc.
+#
+# All rights reserved.  This software may not be copied, disclosed,
+# transferred, or used except in accordance with a license granted
+# by Dell Inc.  This software embodies proprietary information
+# and trade secrets of Dell Inc.
+#
+#-----------------------------------------------------------------------
+
+
+#
+# Configuration file for Dell EqualLogic Linux HIT Kit
+# Location: /etc/equallogic/eql.conf
+#
+
+# EqualLogic Host Integration Tools Parameters
+[HIT Params]
+
+# Logging Level (0 = off, 3 = most verbose)
+DebugLevel = 2
+
+# If 'false' (default), leaves logs to be rotated by an external facility
+# such as logrotate(8).  If 'true', manually rotates the logs once they reach
+# the 'MaxLogSizeMB' threshold set below
+RotateLogFiles = false
+
+# Max size before rotating logs
+MaxLogSizeMB = 50
+
+# Location for log files
+LogDir = /var/log/equallogic
+
+
+# Remote Setup Wizard Configuration Parameters
+[RSW Config]
+
+# Timeout used by internal protocol for discovering EqualLogic arrays
+Discovery Timeout = 8
+
+# Timeout used for communicating initialization parameters for array 
+# initialization, following array discovery
+Setup Timeout = 240
+
+
+# EqualLogic Automatic Snapshot Manager Parameters
+[ASM Params]
+
+# Root directory for saving backup documents
+SmartCopyDirectory = /var/lib/equallogic/asm/smart-copies/
+
+
+# EqualLogic Multipathing Configuration Parameters
+[MPIO Params]
+
+# Whether to enable MPIO session management
+EnableMPIO = true
+
+# Maximum number of MPIO sessions to be used per member per volume
+MaxConnectionsPerMember = 2
+
+# Maximum number of MPIO sessions to be used for entire volume
+MaxDevicesPerMpioSession = 6
+
+# Maximum number of MPIO sessions to create from this host
+MaxMpioSession = 1024
+
+# Number of seconds between checking the health of all managed sessions.
+SessionPollingInterval = 15
+
+# Whether to use MPIO for snapshots
+UseMPIOForSnapshots = true
+
+# If enabled, only IPv4 addresses can be used by MPIO
+UseIPv4 = true
+
+# MPIO will use adapters that meet the minimum speed requirement below
+MinAdapterSpeed = 1000
+
+# Load Balancing policy for MPIO:  
+#    round-robin (or 2)
+#    queue-length (or 4) - Not supported on all kernels
+# (Automatically falls back if the selected type is not available)
+LoadBalanceType = queue-length
+
+# How many IOs to issue on each path in a multipath device before switching.
+# This is equivalent to the rr_min_io parameter in the multipath config file
+IOPerPath = 16
+
+# Which iSCSI initiator to use.  Valid choices are:
+#  tcp    - this is the software initiator and is the default behavior
+#  bnx2i  - this is the Broadcom iSCSI offload initiator
+IscsiInitiator = tcp
+
+# If enabled, only IPv6 addresses can be used by MPIO
+UseIPv6 = false
+
+
+# Volume specific configuration parameters
+# It is possible to modify the IOPerPath, LoadBalanceType, MaxDevicesPerMPIOSession 
+# MaxConnectionsPerMember, and EnableMPIO on a per volume basis.  Define a
+# section with the name "MPIO Volume Params VOLNAME" where VOLNAME is the name
+# of the volume.  Wildcards can be used in the VOLNAME.
+#
+# Example: 
+# [MPIO Volume Params VOLNAME]
+# IOPerPath = 16
+
+# EqualLogic Volume Utility CLI Parameters
+[EQLVOLUME Params]
+
+# Percentage of target capacity to be reached before being recommended for rethinning.
+# If the space used by the target minus the space used by the file system is greater than or
+# equal to this specified percentage of capacity, then the file system is recommended for 
+# rethinning.
+ReThinRecommend = 3
+
+# Fixed amount in MB to be reached before being recommended for rethinning.
+# If the space used by the target minus the space used by the file system is greater than or
+# equal to this specified value, then the file system is recommended for rethinning.
+# (This value is particularly useful when setting a rethinning goal for very large volumes,
+# when even 1% of capacity is a large value.)
+ReThinRecommendMB = 2048
+
+# Minimum amount of free space as a percentage of capacity.
+# This value represents the minimum amount of free space that must exist for a volume to be
+# rethinned.  It is also the minimum amount of free space to be left unallocated if a file
+# system is rethinned by creating large temporary files and deleting them.
+ReThinHeadroom = 2
+
+# Minimum amount of free space as a fixed limit in MB.
+# This value represents the minimum amount of free space that must exist for a volume to be
+# rethinned.  It is also the minimum amount of free space to be left unallocated if a file
+# system is rethinned by creating large temporary files and deleting them.
+ReThinHeadroomMB = 15
+
+
+[MPIO-Exclude]
+Default = true
+
+
+[MPIO-Include]
+<% @networks.each do |net| %>
+Network = <%= net %>
+<% end %>
