@@ -1,17 +1,16 @@
 # equalogic cookbook
 
+Installs and configures the Equalogic Host Integration Tools to set up multipathing support and configurations to connect equalogic iscsi volumes to servers.
+
 # Requirements
 - Chef 11.2.0
 - RHEL 6, Centos 6
 
 # Usage
-Installs and configures the Equalogic Host Integration Tools to set up multipathing support and configurations to connect equalogic iscsi volumes to servers.
 
-Add 'recipe[equallogic]' to your run list and set the appropriate attributes.
+Add `recipe[equallogic]` to your run list and set the appropriate attributes for configuration and addition of the login provider.  To automatically install the host integration tools, you will need to provide a url to the iso as it is not provided.  The best thing to do is download the iso from Dell's website and serve via http it internally.
 
 # Attributes
-
-These are required since the cookbook can't read your mind to find out where and what you are downloading:
 
 * `default['equallogic']['iso']` - URL location of the installation ISO
 * `default['equallogic']['ifaces']` - An array of the interfaces to be used for MPIO
